@@ -1,0 +1,124 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+void CountingSort(int nums[], int N) { 
+	//in arr, max value == max == counting_arr max index    
+	int max = 0 , i;    
+	for(i=0 ; i<N ; i++)    
+	{        
+		if(nums[i] > max)            
+			max = nums[i];   
+	}     
+	int* output_arr=(int*)malloc(sizeof(int)*N);
+	int* counting_arr = (int*)malloc(sizeof(int) * max);
+	for(i=0 ; i<max ; i++)        
+		counting_arr[i] = 0;     
+	//filling counting_arr    
+	for(i=0 ; i<N ; i++)       
+		counting_arr[nums[i]-1]++;     
+	// Change count[i] so that count[i] now contains actual   
+	// position of this character in output array    
+	for(i=1 ; i<max ; i++)        
+		counting_arr[i] += counting_arr[i-1];    
+	// Build the output_arr    
+	for(i=N-1 ; i>=0 ; i--)    
+	{        
+		output_arr[counting_arr[nums[i]-1]-1] = nums[i];  //[nums[i]-1]-1] 이부분 중요    
+		counting_arr[nums[i]-1]--;    }     
+	// Copy the output array to arr, so that arr now    
+	// contains sorted values    
+	for(i=0 ; i<N ; i++)        
+		nums[i] = output_arr[i];
+}
+void PrintArray(int arr[], int size)
+{ 
+	printf("\n**********************\n");   
+	for (int i = 0; i < size; i++) 
+{		printf("%4d", arr[i]); 
+} 
+}
+
+int main() {
+	int nums[] = { 3,5,7,4,5,3,5 };
+	int N = sizeof(nums) / sizeof(int);
+	CountingSort(nums, N);
+	PrintArray(nums, N);
+}
+
+
+/*
+int* countingsort(int* nums, int N) {
+	int* acc_count = (int*)malloc(sizeof(int) * N);
+	int* count = (int*)malloc(sizeof(int) * N);
+	int* sorted = (int*)malloc(sizeof(int) * N);
+	for (int i = 0; i < N; i++) {
+		count[i] = 0;
+		acc_count[i] = 0;
+
+	}
+	//각 숫자 카운트하기
+	for (int i = 0; i < N; i++) {
+		count[nums[i] - 1] += 1;
+	}
+	//누적 카운트하기
+	for (int i = 0; i < N; i++) {
+		if (i == 0)
+			acc_count[i] += count[i];
+		else
+		{
+			acc_count[i] = acc_count[i - 1] + count[i];
+		}
+	}
+	for (int i = 0; i < N; i++) {
+		acc_count[i] -= 1;
+	}
+	for (int i = N - 1; i >= 0; i--) {
+		sorted[acc_count[i]] = nums[i];
+		acc_count[i]--;
+		printf("%d ", sorted[acc_count[i]]);
+	}
+	//for (int i = 0; i < N; i++) {
+	//	printf("%d ", sorted[i]);
+	//}
+	return sorted;
+	free(acc_count);
+	free(sorted);
+	free(count);
+
+}
+
+int main() {
+	int nums[] = { 3,2,5,1,2,5 };
+	int N = sizeof(nums) / sizeof(int);
+	countingsort(nums, N);
+}
+*/
+
+
+
+/*
+* int main() {
+	int nums[]= { 8, 31,48, 73, 3, 65, 20, 29, 11, 15 };
+	int res[100000];
+	int count[100000];
+	int N = sizeof(nums) / sizeof(int);
+	for (int i = 0; i < 100000; i++) {
+		count[i] = 0;
+	}
+	for (int i = 0; i < N; i++) {
+		count[nums[i] - 1] += 1;
+		
+	}
+	for (int i = 0; i < 100000; i++) {
+		if (count[i] != 0) {
+			for (int j = 0;j<count[i];j++)
+				printf("%d ", i+1);
+		}
+		
+		
+	}
+}
+*/
+ 
+
